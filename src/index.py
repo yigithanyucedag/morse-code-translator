@@ -124,7 +124,7 @@ print("""
                                | |              
                                |_|              """)
                                
-print("\033[96m\033[1mWelcome to morsepro v0.1beta\033[0m")
+print("\033[96m\033[1mWelcome to morsepro v0.1-beta\033[0m")
 print("\033[96mCreated by github.com/yigithanyucedag\033[0m\n")
 
 stack = Stack()
