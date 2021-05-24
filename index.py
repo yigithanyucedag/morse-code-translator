@@ -1,3 +1,4 @@
+import readline
 from simple_term_menu import TerminalMenu
 
 dataset = {
@@ -51,6 +52,11 @@ dataset = {
 
 inv_dataset = {v: k for k, v in dataset.items()}
 
+# Menu Actions
+PLAIN_TEXT_TO_MORSE_CODE = 0
+MORSE_CODE_TO_PLAIN_TEXT = 1
+HISTORY = 2
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -83,8 +89,8 @@ class LinkedList:
         nodes.append("None")
         return " -> ".join(nodes)
 
-def translator(char, s):
-    if s == 0:
+def translator(char, type):
+    if type == 0:
         return dataset.get(char)
     else:
         return inv_dataset.get(char)
@@ -103,41 +109,47 @@ print("\033[96m\033[1mWelcome to morsepro v0.1beta\033[0m")
 print("\033[96mCreated by Yiğithan Yücedağ\033[0m\n")
 
 while run:
-    terminal_menu = TerminalMenu(["Plain text to morse code", "Morse code to plain text"])
-    menu_entry_index = terminal_menu.show()
+    terminal_menu = TerminalMenu(["Plain text to morse code", "Morse code to plain text", "Show History"])
+    selected_action = terminal_menu.show()
 
-    if menu_entry_index == 0:
+    if selected_action == PLAIN_TEXT_TO_MORSE_CODE:
         print("Please type a plain text")
-    else:
-        print("Please type a morse code")
+        text = str(input("> "))
+        char_list = LinkedList()
 
-    text = str(input("> "))
-
-    llist = LinkedList()
-
-    if menu_entry_index == 1:
-        splitted = text.split(" ")
-        last_node = llist.add_first(Node(splitted[0])) # initially = head node
-        for i in splitted[1:]:
-            node = Node(i)
-            last_node.next = node
-            last_node = node
-    else:
-        last_node = llist.add_first(Node(text[0].lower())) # initially = head node
-        for i in text[1:]: # exclude first char
+        last_node = char_list.add_first(Node(text[0].lower()))
+        for i in text[1:]:
             node = Node(i.lower())
             last_node.next = node
             last_node = node
 
-    output = str()
-    for node in llist:
-        output += f"{translator(node.data, menu_entry_index)}{' ' if menu_entry_index == 0 else ''}"
+        output = str()
+        for node in char_list:
+            output += f"{translator(node.data, selected_action)} "
+        
+        print(f"Morse code: {output}\n")
+        
+    elif selected_action == MORSE_CODE_TO_PLAIN_TEXT:
+        print("Please type a morse code")
+        code = str(input("> "))
+        code_list = LinkedList()
+        splitted = code.split(" ")
+        last_node = code_list.add_first(Node(splitted[0]))
+        for i in splitted[1:]:
+            node = Node(i)
+            last_node.next = node
+            last_node = node
 
-    llist = LinkedList()
+        output = str()
+        for node in code_list:
+            output += f"{translator(node.data, selected_action)}"
 
-    print(f"Morse code: {output}\n") if menu_entry_index == 0 else print(f"Plain text: {output}\n")
+        print(f"Plain text: {output}\n")
+    else:
+        print("Show history")
+    
 
-    terminal_menu = TerminalMenu(["Start over", "Exit"])
+    terminal_menu = TerminalMenu(["Main menu", "Exit"])
     menu_entry_index = terminal_menu.show()
     if menu_entry_index == 1:
         run = False
