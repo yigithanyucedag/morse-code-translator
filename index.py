@@ -112,7 +112,7 @@ print("""
                                |_|              """)
                                
 print("\033[96m\033[1mWelcome to morsepro v0.1beta\033[0m")
-print("\033[96mCreated by Yiğithan Yücedağ\033[0m\n")
+print("\033[96mCreated by github.com/yigithanyucedag\033[0m\n")
 
 while True:
     terminal_menu = TerminalMenu(["Plain text to morse code", "Morse code to plain text", "Show History", "Exit"])
