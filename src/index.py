@@ -52,8 +52,6 @@ dataset = {
     " ": "/"
 }
 
-inv_dataset = {v: k for k, v in dataset.items()}
-
 # Menu Action Codes
 TRANSLATE_PLAIN_TEXT_TO_MORSE_CODE = 0
 TRANSLATE_MORSE_CODE_TO_PLAIN_TEXT = 1
@@ -165,7 +163,7 @@ while True:
 
         output = []
         for node in code_list:
-            output.append(inv_dataset.get(node.data))
+            output.append(list(dataset.keys())[list(dataset.values()).index(node.data)])
 
         output = "".join(output)
         print(f"Plain text: {output}\n")
