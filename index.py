@@ -52,10 +52,17 @@ dataset = {
 
 inv_dataset = {v: k for k, v in dataset.items()}
 
-# Menu Actions
-PLAIN_TEXT_TO_MORSE_CODE = 0
-MORSE_CODE_TO_PLAIN_TEXT = 1
-HISTORY = 2
+# Menu Action Codes
+TRANSLATE_PLAIN_TEXT_TO_MORSE_CODE = 0
+TRANSLATE_MORSE_CODE_TO_PLAIN_TEXT = 1
+SHOW_HISTORY = 2
+
+def show_sub_options(): 
+    terminal_menu = TerminalMenu(["Main menu", "Exit"])
+    menu_entry_index = terminal_menu.show()
+    if menu_entry_index == 1:
+        print("\033[1mThanks for using morsepro\033[0m 👋")
+        quit()
 
 class Node:
     def __init__(self, data):
@@ -95,7 +102,6 @@ def translator(char, type):
     else:
         return inv_dataset.get(char)
 
-run = True
 print("""                                                
                                                 
   _ __ ___   ___  _ __ ___  ___ _ __  _ __ ___  
@@ -108,11 +114,11 @@ print("""
 print("\033[96m\033[1mWelcome to morsepro v0.1beta\033[0m")
 print("\033[96mCreated by Yiğithan Yücedağ\033[0m\n")
 
-while run:
-    terminal_menu = TerminalMenu(["Plain text to morse code", "Morse code to plain text", "Show History"])
+while True:
+    terminal_menu = TerminalMenu(["Plain text to morse code", "Morse code to plain text", "Show History", "Exit"])
     selected_action = terminal_menu.show()
 
-    if selected_action == PLAIN_TEXT_TO_MORSE_CODE:
+    if selected_action == TRANSLATE_PLAIN_TEXT_TO_MORSE_CODE:
         print("Please type a plain text")
         text = str(input("> "))
         char_list = LinkedList()
@@ -129,7 +135,8 @@ while run:
         
         print(f"Morse code: {output}\n")
         
-    elif selected_action == MORSE_CODE_TO_PLAIN_TEXT:
+        show_sub_options()
+    elif selected_action == TRANSLATE_MORSE_CODE_TO_PLAIN_TEXT:
         print("Please type a morse code")
         code = str(input("> "))
         code_list = LinkedList()
@@ -145,11 +152,10 @@ while run:
             output += f"{translator(node.data, selected_action)}"
 
         print(f"Plain text: {output}\n")
-    else:
+        
+        show_sub_options()
+    elif selected_action == SHOW_HISTORY:
         print("Show history")
-    
-
-    terminal_menu = TerminalMenu(["Main menu", "Exit"])
-    menu_entry_index = terminal_menu.show()
-    if menu_entry_index == 1:
-        run = False
+    else:
+        print("\033[1mThanks for using morsepro\033[0m 👋")
+        quit()
