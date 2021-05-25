@@ -2,7 +2,7 @@
 
 Python script for encoding and decoding morse code
 
-![Screenshot](preview.gif)
+![Screenshot](docs/preview.gif)
 
 **Used data structures:**
 
